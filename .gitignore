@@ -20,18 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 
-# Azure Functions
-bin/
-obj/
-.vs/
-.vscode/
-local.settings.json
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
-
-# Environment
+# Virtual Environment
 .env
 .venv
 env/
@@ -40,8 +29,25 @@ ENV/
 
 # IDE
 .idea/
+.vscode/
 *.swp
 *.swo
+.DS_Store
+
+# Azure Functions
+local.settings.json
+.python_packages/
+.funcignore
+
+# Test files
+*.pdf
+*.csv
+*.json
+*.bat
+
+# Project specific
+.vs/
+EIPython.code-workspace
 
 # Logs
 *.log 

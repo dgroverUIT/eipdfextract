@@ -4,62 +4,98 @@ An Azure Function that extracts structured data from PDF inspection reports.
 
 ## Features
 
-- Extracts project information from PDF inspection reports
-- Processes section headers and their content
-- Handles special cases like Site Photos
-- Extracts Review Status and Acknowledgment information
+- Extracts project information, observations, and review status from PDF inspection reports
 - Returns data in a structured JSON format
+- Handles various data formats including key-value pairs, dash-prefixed rows, and site photos
 
-## Requirements
+## Project Structure
+
+```
+eipdfextract/
+├── ExtractObservations/
+│   ├── __init__.py            # Main function code
+│   └── function.json          # HTTP trigger configuration
+├── host.json                  # Functions runtime configuration
+└── requirements.txt           # Python dependencies
+```
+
+## Prerequisites
 
 - Python 3.8 or higher
 - Azure Functions Core Tools
-- Dependencies listed in requirements.txt
+- Azure subscription (for deployment)
 
-## Installation
+## Local Development
 
-1. Clone this repository
+1. Create a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
+
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+3. Run the function locally:
+   ```bash
+   func start
+   ```
 
-The function accepts a POST request with a PDF file in the request body. It returns a JSON array containing the extracted data.
+## Deployment
 
-### Example Request
+### Deploy to Azure
+
+1. Install Azure Functions Core Tools:
+   ```bash
+   npm install -g azure-functions-core-tools@4
+   ```
+
+2. Login to Azure:
+   ```bash
+   az login
+   ```
+
+3. Deploy the function:
+   ```bash
+   func azure functionapp publish EIPDFExtractV1
+   ```
+
+### Using GitHub Actions
+
+The repository includes a GitHub Actions workflow for automated deployment. Simply push to the main branch to trigger deployment.
+
+## API Usage
+
+Send a POST request to the function endpoint with a PDF file in the request body:
 
 ```bash
-curl -X POST -H "Content-Type: application/pdf" --data-binary @inspection.pdf http://your-function-url/api/function-name
+curl -X POST -H "Content-Type: application/pdf" --data-binary @your-file.pdf https://eipdfextractv1.azurewebsites.net/api/ExtractObservations
 ```
 
-### Example Response
+## Response Format
 
+The function returns a JSON array of observations, each containing:
+- Observation Name
+- Observation Subdetail
+- Value
+
+Example response:
 ```json
 [
   {
     "Observation Name": "Project Information",
-    "Observation Subdetail": "Date/Time",
-    "Value": "04-17-2025"
+    "Observation Subdetail": "Project Name",
+    "Value": "Sample Project"
   },
   {
-    "Observation Name": "Project Information",
-    "Observation Subdetail": "Street Address",
-    "Value": "14915 Clover Meadow Ln"
+    "Observation Name": "A_General Observations",
+    "Observation Subdetail": "Condition",
+    "Value": "Good"
   }
 ]
 ```
-
-## Development
-
-To run the function locally:
-
-1. Install Azure Functions Core Tools
-2. Run the function:
-   ```bash
-   func start
-   ```
 
 ## License
 

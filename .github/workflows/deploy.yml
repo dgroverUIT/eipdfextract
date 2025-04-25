@@ -1,0 +1,39 @@
+name: Deploy to Azure Functions
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: EIPDFExtractV1
+  AZURE_FUNCTIONAPP_PUBLISH_PROFILE: AZUREAPPSERVICE_PUBLISHPROFILE_42C153A69F3446839D601EC181170B5F
+  PYTHON_VERSION: '3.8'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main
+
+    - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Pip'
+      shell: bash
+      run: |
+        pushd './'
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: '.'
+        publish-profile: ${{ env.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} 
