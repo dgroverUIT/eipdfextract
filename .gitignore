@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -44,10 +45,14 @@ local.settings.json
 *.csv
 *.json
 *.bat
+tests/
 
 # Project specific
 .vs/
 EIPython.code-workspace
 
 # Logs
-*.log 
+*.log
+
+# OS
+Thumbs.db

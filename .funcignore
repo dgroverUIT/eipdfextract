@@ -1,0 +1,7 @@
+# ignore big local artifacts
+*.pdf
+*.csv
+.vscode/
+.vs/
+__pycache__/
+tests/ 

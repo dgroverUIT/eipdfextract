@@ -1,8 +1,8 @@
 azure-functions==1.15.0
-PyMuPDF==1.23.8
+PyMuPDF==1.24.4
 pdfplumber==0.10.3
 PyMuPDFb==1.23.7
 Pillow>=9.1
 pdfminer.six==20221105
 pypdfium2>=4.18.0
-cryptography>=36.0.0 
+cryptography>=36.0.0
